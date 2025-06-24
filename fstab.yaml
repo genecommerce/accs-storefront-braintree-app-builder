@@ -1,5 +1,7 @@
-mountpoints:
-  /: https://drive.google.com/drive/folders/1D0E8epyo2PVp6baXorIu6W3J7YrGW8f2
+mountpoints:Add commentMore actions
+  /:
+    url: https://content.da.live/genecommerce/accs-storefront-braintree-app-builder/
+    type: markup
 
 folders:
   /products/: /products/default

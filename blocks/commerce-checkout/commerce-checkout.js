@@ -224,7 +224,6 @@ export default async function decorate(block) {
   let shippingAddresses;
   let billingAddresses;
 
-
   const handleValidation = () => {
     let success = true;
     const { forms } = document;
@@ -266,7 +265,7 @@ export default async function decorate(block) {
     }
 
     return success;
-  }
+  };
 
   const braintree = await Braintree(handleValidation);
 
@@ -507,7 +506,7 @@ export default async function decorate(block) {
         try {
           if (braintree.methodCodes.includes(code)) {
             removeOverlaySpinner();
-            braintree.onPlaceOrder({cartId, code});
+            braintree.onPlaceOrder({ cartId, code });
             return;
           }
 

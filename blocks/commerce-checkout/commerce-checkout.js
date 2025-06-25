@@ -62,6 +62,10 @@ import OrderStatus from '@dropins/storefront-order/containers/OrderStatus.js';
 import ShippingStatus from '@dropins/storefront-order/containers/ShippingStatus.js';
 import { render as OrderProvider } from '@dropins/storefront-order/render.js';
 
+// Braintree
+import Braintree from '@genecommerce/dropin-braintree/src/braintree.js';
+import attachPaymentMethodChange from '@genecommerce/dropin-braintree/src/helpers/attachPaymentMethodChange.js';
+
 // Payment Services Dropin
 import { PaymentMethodCode } from '@dropins/storefront-payment-services/api.js';
 import CreditCard from '@dropins/storefront-payment-services/containers/CreditCard.js';
@@ -88,10 +92,6 @@ import { rootLink } from '../../scripts/scripts.js';
 import '../../scripts/initializers/account.js';
 import '../../scripts/initializers/checkout.js';
 import '../../scripts/initializers/order.js';
-
-// Braintree
-import Braintree from '@genecommerce/dropin-braintree/src/braintree.js';
-import attachPaymentMethodChange from '@genecommerce/dropin-braintree/src/helpers/attachPaymentMethodChange.js';
 
 function createMetaTag(property, content, type) {
   if (!property || !type) {

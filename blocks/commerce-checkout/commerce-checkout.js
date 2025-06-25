@@ -507,8 +507,9 @@ export default async function decorate(block) {
         try {
           if (braintree.methodCodes.includes(code)) {
             removeOverlaySpinner();
-            braintree.onPlaceOrder({ cartId, code });
+            braintree.onPlaceOrder({cartId, code});
             return;
+          }
 
           // Payment Services credit card
           if (code === PaymentMethodCode.CREDIT_CARD) {

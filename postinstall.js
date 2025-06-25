@@ -31,6 +31,25 @@ fs.readdirSync('node_modules/@dropins', { withFileTypes: true }).forEach((file) 
   });
 });
 
+
+// Copy specified files from node_modules/@dropins to scripts/__dropins__
+fs.readdirSync('node_modules/@genecommerce', { withFileTypes: true }).forEach((file) => {
+  // Skip if package is not in package.json dependencies / skip devDependencies
+  if (!dependencies[`@genecommerce/${file.name}`]) {
+    return;
+  }
+
+  // Skip if is not folder
+  if (!file.isDirectory()) {
+    return;
+  }
+  fs.cpSync(path.join('node_modules', '@genecommerce', file.name), path.join(dropinsDir, file.name), {
+    recursive: true,
+    filter: (src) => (!src.endsWith('package.json')),
+  });
+});
+
+
 // Other files to copy
 [
   { from: '@adobe/magento-storefront-event-collector/dist/index.js', to: 'commerce-events-collector.js' },

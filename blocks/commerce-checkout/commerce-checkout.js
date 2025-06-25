@@ -89,6 +89,10 @@ import '../../scripts/initializers/account.js';
 import '../../scripts/initializers/checkout.js';
 import '../../scripts/initializers/order.js';
 
+// Braintree
+import Braintree from '@genecommerce/dropin-braintree/src/braintree.js';
+import attachPaymentMethodChange from '@genecommerce/dropin-braintree/src/helpers/attachPaymentMethodChange.js';
+
 function createMetaTag(property, content, type) {
   if (!property || !type) {
     return;
@@ -219,6 +223,52 @@ export default async function decorate(block) {
   let billingForm;
   let shippingAddresses;
   let billingAddresses;
+
+
+  const handleValidation = () => {
+    let success = true;
+    const { forms } = document;
+
+    const loginForm = forms[LOGIN_FORM_NAME];
+
+    if (loginForm) {
+      success = loginForm.checkValidity();
+      if (!success) scrollToElement($login);
+    }
+
+    const shippingForm = forms[SHIPPING_FORM_NAME];
+
+    if (
+      success
+      && shippingFormRef.current
+      && shippingForm
+      && shippingForm.checkVisibility()
+    ) {
+      success = shippingFormRef.current.handleValidationSubmit(false);
+    }
+
+    const billingForm = forms[BILLING_FORM_NAME];
+
+    if (
+      success
+      && billingFormRef.current
+      && billingForm
+      && billingForm.checkVisibility()
+    ) {
+      success = billingFormRef.current.handleValidationSubmit(false);
+    }
+
+    const termsAndConditionsForm = forms[TERMS_AND_CONDITIONS_FORM_NAME];
+
+    if (success && termsAndConditionsForm) {
+      success = termsAndConditionsForm.checkValidity();
+      if (!success) scrollToElement($termsAndConditions);
+    }
+
+    return success;
+  }
+
+  const braintree = await Braintree(handleValidation);
 
   const shippingFormRef = { current: null };
   const billingFormRef = { current: null };
@@ -351,6 +401,7 @@ export default async function decorate(block) {
           [PaymentMethodCode.VAULT]: {
             enabled: false,
           },
+          ...braintree.methods,
         },
       },
     })($paymentMethods),
@@ -450,51 +501,17 @@ export default async function decorate(block) {
     })($termsAndConditions),
 
     CheckoutProvider.render(PlaceOrder, {
-      handleValidation: () => {
-        let success = true;
-        const { forms } = document;
-
-        const loginForm = forms[LOGIN_FORM_NAME];
-
-        if (loginForm) {
-          success = loginForm.checkValidity();
-          if (!success) scrollToElement($login);
-        }
-
-        const shippingForm = forms[SHIPPING_FORM_NAME];
-
-        if (
-          success
-          && shippingFormRef.current
-          && shippingForm
-          && shippingForm.checkVisibility()
-        ) {
-          success = shippingFormRef.current.handleValidationSubmit(false);
-        }
-
-        const billingForm = forms[BILLING_FORM_NAME];
-
-        if (
-          success
-          && billingFormRef.current
-          && billingForm
-          && billingForm.checkVisibility()
-        ) {
-          success = billingFormRef.current.handleValidationSubmit(false);
-        }
-
-        const termsAndConditionsForm = forms[TERMS_AND_CONDITIONS_FORM_NAME];
-
-        if (success && termsAndConditionsForm) {
-          success = termsAndConditionsForm.checkValidity();
-          if (!success) scrollToElement($termsAndConditions);
-        }
-
-        return success;
-      },
+      handleValidation,
       handlePlaceOrder: async ({ cartId, code }) => {
         await displayOverlaySpinner();
         try {
+          try {
+            if (braintree.methodCodes.includes(code)) {
+              removeOverlaySpinner();
+              braintree.onPlaceOrder({ cartId, code });
+              return;
+            }
+
           // Payment Services credit card
           if (code === PaymentMethodCode.CREDIT_CARD) {
             if (!creditCardFormRef.current) {
@@ -582,6 +599,7 @@ export default async function decorate(block) {
       removeOverlaySpinner();
       await displayCustomerAddressForms(data);
     }
+    attachPaymentMethodChange($paymentMethods);
   };
 
   const displayGuestAddressForms = async (data) => {

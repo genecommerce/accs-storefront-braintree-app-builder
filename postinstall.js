@@ -31,7 +31,6 @@ fs.readdirSync('node_modules/@dropins', { withFileTypes: true }).forEach((file) 
   });
 });
 
-
 // Copy specified files from node_modules/@dropins to scripts/__dropins__
 fs.readdirSync('node_modules/@genecommerce', { withFileTypes: true }).forEach((file) => {
   // Skip if package is not in package.json dependencies / skip devDependencies
@@ -48,7 +47,6 @@ fs.readdirSync('node_modules/@genecommerce', { withFileTypes: true }).forEach((f
     filter: (src) => (!src.endsWith('package.json')),
   });
 });
-
 
 // Other files to copy
 [

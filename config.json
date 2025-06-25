@@ -24,7 +24,7 @@
         "website-id": 1,
         "website-name": "Main Website"
       }
-    }
-  },
-  "commerce-braintree-config-endpoint": "https://3646645-687coffeecardinal-stage.adobeio-static.net/api/v1/web/braintree/config"
+    },
+    "commerce-braintree-config-endpoint": "https://3646645-687coffeecardinal-stage.adobeio-static.net/api/v1/web/braintree/config"
+  }
 }

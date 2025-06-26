@@ -122,6 +122,10 @@ const placeOrder = async (ctx) => {
       code: 'braintree_oope',
       additional_data: [
         {
+          key: 'is_active_payment_token_enabler',
+          value: false, // TODO: Update when we have authenticated Users.
+        },
+        {
           key: 'payment_method_nonce',
           value: payload.nonce,
         },

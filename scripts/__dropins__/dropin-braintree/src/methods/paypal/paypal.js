@@ -67,8 +67,6 @@ const getPaymentOptions = async (clientToken) => {
 };
 
 const createBraintreeInstance = (handleValidation) => {
-  container.querySelector('.braintree_paypal').innerHTML = '';
-
   if (braintreeInstance && typeof braintreeInstance.teardown === 'function') {
     braintreeInstance.teardown();
   }

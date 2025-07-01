@@ -114,6 +114,7 @@ const placeOrder = async (ctx) => {
       billingAddress: formattedBillingAddress,
       challengeRequested: braintree.threeds.always_request
         || cart.total.includingTax.value >= parseFloat(braintree.threeds.threshold),
+      collectDeviceData: true
     };
   }
 

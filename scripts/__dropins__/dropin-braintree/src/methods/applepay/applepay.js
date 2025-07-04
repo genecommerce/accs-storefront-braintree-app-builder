@@ -55,12 +55,12 @@ const getPaymentOptions = async (clientToken) => {
   return options;
 };
 
-const createBraintreeInstance = (handleValidation) => {
-  container.querySelector('.braintree_applepay').innerHTML = '';
-
+const createBraintreeInstance = async (handleValidation) => {
   if (braintreeInstance && typeof braintreeInstance.teardown === 'function') {
-    braintreeInstance.teardown();
+    await braintreeInstance.teardown();
   }
+
+  container.querySelector('.braintree_applepay').innerHTML = '';
 
   getClientToken()
     .then(getPaymentOptions)

@@ -39,12 +39,12 @@ const getPaymentOptions = async (clientToken) => {
   return options;
 };
 
-const createBraintreeInstance = () => {
-  container.querySelector('.braintree_card').innerHTML = '';
-
+const createBraintreeInstance = async () => {
   if (braintreeInstance && typeof braintreeInstance.teardown === 'function') {
-    braintreeInstance.teardown();
+    await braintreeInstance.teardown();
   }
+
+  container.querySelector('.braintree_card').innerHTML = '';
 
   getClientToken()
     .then(getPaymentOptions)
@@ -114,7 +114,6 @@ const placeOrder = async (ctx) => {
       billingAddress: formattedBillingAddress,
       challengeRequested: braintree.threeds.always_request
         || cart.total.includingTax.value >= parseFloat(braintree.threeds.threshold),
-      collectDeviceData: true
     };
   }
 
@@ -122,6 +121,10 @@ const placeOrder = async (ctx) => {
     .then((payload) => checkoutApi.setPaymentMethod({
       code: 'braintree_oope',
       additional_data: [
+        {
+          key: 'is_active_payment_token_enabler',
+          value: false, // TODO: Update when we have authenticated Users.
+        },
         {
           key: 'payment_method_nonce',
           value: payload.nonce,

@@ -112,8 +112,7 @@ const placeOrder = async (ctx) => {
       amount: cart.total.includingTax.value.toFixed(2),
       email,
       billingAddress: formattedBillingAddress,
-      challengeRequested: braintree.threeds.always_request
-        || cart.total.includingTax.value >= parseFloat(braintree.threeds.threshold),
+      challengeRequested: true,
       collectDeviceData: true
     };
   }

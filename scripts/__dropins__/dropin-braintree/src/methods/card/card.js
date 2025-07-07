@@ -39,12 +39,12 @@ const getPaymentOptions = async (clientToken) => {
   return options;
 };
 
-const createBraintreeInstance = () => {
-  container.querySelector('.braintree_card').innerHTML = '';
-
+const createBraintreeInstance = async () => {
   if (braintreeInstance && typeof braintreeInstance.teardown === 'function') {
-    braintreeInstance.teardown();
+    await braintreeInstance.teardown();
   }
+
+  container.querySelector('.braintree_card').innerHTML = '';
 
   getClientToken()
     .then(getPaymentOptions)
@@ -113,7 +113,7 @@ const placeOrder = async (ctx) => {
       email,
       billingAddress: formattedBillingAddress,
       challengeRequested: true,
-      collectDeviceData: true
+      collectDeviceData: true,
     };
   }
 

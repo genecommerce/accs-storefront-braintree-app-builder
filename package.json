@@ -44,6 +44,6 @@
     "@dropins/storefront-payment-services": "~1.0.1",
     "@dropins/storefront-pdp": "^1.1.0",
     "@dropins/tools": "1.2.1",
-    "@genecommerce/dropin-braintree": "^0.0.1-beta.3"
+    "@genecommerce/dropin-braintree": "^0.0.1-beta.5"
   }
 }

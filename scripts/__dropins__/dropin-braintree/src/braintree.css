@@ -1,0 +1,60 @@
+.braintree-heading,
+.braintree-placeholder,
+.braintree-sheet__header,
+.braintree-toggle {
+  display: none;
+}
+
+.braintree-sheet {
+  border: none;
+}
+
+.braintree-form__flexible-fields {
+  gap: var(--spacing-small);
+  margin-top: var(--spacing-small);
+}
+
+.braintree-sheet__content--button,
+.braintree-sheet__content--form,
+.braintree-form__field-group {
+  margin-bottom: 0;
+  min-height: auto;
+  padding: 0;
+}
+
+[data-braintree-id="apple-pay-button"],
+[data-braintree-id="google-pay-button"],
+[data-braintree-id="venmo-button"] {
+  display: block;
+  height: 50px;
+  width: 100%;
+}
+
+.braintree_errors .dropin-in-line-alert {
+  margin-bottom: var(--spacing-medium);
+}
+
+.braintree-dropin {
+  font-family: var(--type-base-font-family);
+}
+
+.checkout__payment-methods[data-selected-payment-method="braintree_applepay_oope"] ~ .checkout__place-order,
+.checkout__payment-methods[data-selected-payment-method="braintree_googlepay_oope"] ~ .checkout__place-order,
+.checkout__payment-methods[data-selected-payment-method="braintree_paypal_oope"] ~ .checkout__place-order,
+.checkout__payment-methods[data-selected-payment-method="braintree_paypal_oope"] .braintree-options,
+.checkout__payment-methods[data-selected-payment-method="braintree_venmo_oope"] ~ .checkout__place-order {
+  display: none;
+}
+
+.checkout__payment-methods[data-selected-payment-method="braintree_paypal_oope"] .braintree-sheet--active .braintree-paypal,
+.checkout__payment-methods[data-selected-payment-method="braintree_paypal_oope"] .braintree-sheet--active .braintree-paypalCredit {
+  display: block;
+}
+
+.paypal-button-label-credit {
+  margin-top: var(--spacing-medium);
+}
+
+.braintree-upper-container {
+  z-index: 1;
+}

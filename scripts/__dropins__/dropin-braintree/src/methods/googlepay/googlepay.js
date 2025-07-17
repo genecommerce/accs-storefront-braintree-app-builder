@@ -129,9 +129,15 @@ const handler = async (ctx, handleValidation) => {
 
   createBraintreeInstance(handleValidation);
 
-  events.on('cart/data', () => {
+  const cartChange = events.on('cart/data', () => {
     if (!orderProcessing.getState()) {
       createBraintreeInstance(handleValidation);
+    }
+  });
+
+  document.addEventListener('braintreePaymentMethodChange', ({ detail: { method } }) => {
+    if (method !== 'braintree_googlepay_oope') {
+      cartChange.off();
     }
   });
 };

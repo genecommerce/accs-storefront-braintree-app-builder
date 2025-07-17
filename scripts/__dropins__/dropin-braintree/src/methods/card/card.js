@@ -73,9 +73,15 @@ const handler = async (ctx) => {
 
   createBraintreeInstance();
 
-  events.on('cart/data', () => {
+  const cartChange = events.on('cart/data', () => {
     if (!orderProcessing.getState()) {
       createBraintreeInstance();
+    }
+  });
+
+  document.addEventListener('braintreePaymentMethodChange', ({ detail: { method } }) => {
+    if (method !== 'braintree_oope') {
+      cartChange.off();
     }
   });
 };

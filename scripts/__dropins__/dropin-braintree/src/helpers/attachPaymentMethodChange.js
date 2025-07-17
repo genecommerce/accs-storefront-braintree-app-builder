@@ -6,6 +6,9 @@
  */
 const setSelectedPaymentMethod = ($paymentMethods, method) => {
   $paymentMethods.dataset.selectedPaymentMethod = method;
+
+  const event = new CustomEvent('braintreePaymentMethodChange', { detail: { method } });
+  document.dispatchEvent(event);
 };
 
 /**
